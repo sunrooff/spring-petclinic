@@ -1,16 +1,16 @@
 pipeline {
     agent any
+    
+    environment {
+        DOCKER_IMAGE_NAME = "sunrooff/petclinicapp"
+    }
+    
+    // Global configuration should be done (pre-install maven plugin)
     tools {
         maven "3.6.3"
     }
 
     stages {
-        stage ('SCM Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/sunrooff/spring-petclinic.git'
-            }
-        }
-
         stage ('Build') {
             steps {
                 sh "./mvnw package"
@@ -20,12 +20,13 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    app = docker.build("sunrooff/petclinicapp")
+                    app = docker.build(DOCKER_IMAGE_NAME)
                 }
             }
         }
 
-        stage('Push Docker Image') {
+        // Create Credentials for DockerHub via token
+        stage('Push Docker Image to DockerHub') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-key') {
@@ -36,7 +37,9 @@ pipeline {
             }
         }
 
-        stage('Deploy to AWS eks') {
+        // Create Credentials for DockerHub via token
+        // docker
+        stage('Deploy to eks') {
             steps {
                 kubernetesDeploy(
                     kubeconfigId: 'kubeconfig',
@@ -47,3 +50,5 @@ pipeline {
         }
     }
 }
+
+// aws eks --region us-east-2 update-kubeconfig --name my-eks-k8s-cluster
