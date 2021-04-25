@@ -1,3 +1,32 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-petclinic-deployment
+  labels:
+    app: spring-petclinic
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spring-petclinic
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: spring-petclinic
+        track: stable
+    spec:
+      containers:
+      - name: spring-petclinic
+        image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+
+---
+
 kind: Service
 apiVersion: v1
 metadata:
@@ -34,30 +63,3 @@ spec:
   - protocol: TCP
     port: 8080
     nodePort: 8080
-
----
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: spring-petclinic-deployment
-  labels:
-    app: spring-petclinic
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: spring-petclinic
-      track: stable
-  template:
-    metadata:
-      labels:
-        app: spring-petclinic
-        track: stable
-    spec:
-      containers:
-      - name: spring-petclinic
-        image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8080
