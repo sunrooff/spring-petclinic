@@ -51,4 +51,4 @@ pipeline {
     }
 }
 
-// aws eks --region us-east-2 update-kubeconfig --name my-eks-k8s-cluster
+// aws eks --region us-east-2 update-kubeconfig --name eks
