@@ -31,7 +31,7 @@ pipeline {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-key') {
                         app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
+                        // app.push("latest")
                     }
                 }
             }
