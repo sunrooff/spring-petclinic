@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE_NAME = "sunrooff/petclinicapp"
     }
     
-    // Global configuration should be done (pre-install maven plugin)
+    // Global Jenkins Configuration should be done (pre-install maven plugin)
     tools {
         maven "3.6.3"
     }
@@ -25,7 +25,7 @@ pipeline {
             }
         }
 
-        // Create Credentials for DockerHub via token
+        // Before to create Credentials in Jenkins for DockerHub
         stage('Push Docker Image to DockerHub') {
             steps {
                 script {
@@ -49,7 +49,8 @@ pipeline {
         //}        
         
   
-       // using kubernetes continious deploy plugin
+        // using Kubernetes Continious Deploy plugin ( works only after downgrading its version to 1.0.0 )
+        // Kubernetes's config file is used to set up credentianls in Jenkins
         stage('Deploy to EKS') {
             steps {
                 kubernetesDeploy(
@@ -61,5 +62,3 @@ pipeline {
         }
     }
 }
-
-// aws eks --region us-east-2 update-kubeconfig --name eks
