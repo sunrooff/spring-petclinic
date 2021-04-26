@@ -18,6 +18,7 @@ spec:
       containers:
       - name: spring-petclinic
         image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
 # ---
@@ -40,14 +41,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: external-spring-petclinic
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: nlb
-    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
+  name: spring-petclinic-app-svc
+#   annotations:
+#     service.beta.kubernetes.io/aws-load-balancer-type: nlb
+#     service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
 spec:
   selector:
     app: spring-petclinic
-  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 8080
+      targetPort: 8080
+  type: LoadBalancer
