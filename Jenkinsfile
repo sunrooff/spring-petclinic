@@ -36,18 +36,23 @@ pipeline {
                 }
             }
         }
-
-        // Create Credentials for DockerHub via token
-        // docker
-        stage('Deploy to eks') {
-            steps {
-                kubernetesDeploy(
-                    kubeconfigId: 'kubeconfig',
-                    configs: 'spring-petclinic-deploy.yml',
-                    enableConfigSubstitution: true
-                )
+        // using kubernetes cli plugin
+        stage('Deploy to EKS') {
+            withKubeConfig([credentialsId: 'my-kubeconfig', serverUrl: 'https://api.k8s.my-company.com']) {
+                sh 'kubectl apply -f spring-petclinic-deploy.yml'
             }
         }
+  
+       // using kubernetes continious deploy plugin
+       // stage('Deploy to EKS') {
+         //   steps {
+           //     kubernetesDeploy(
+             //       kubeconfigId: 'kubeconfig',
+               //     configs: 'spring-petclinic-deploy.yml',
+                 //   enableConfigSubstitution: true
+                //)
+            //}
+        //}
     }
 }
 
