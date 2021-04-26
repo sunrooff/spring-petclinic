@@ -53,6 +53,7 @@ pipeline {
         // Kubernetes's config file is used to set up credentianls in Jenkins
         stage('Deploy to EKS') {
             steps {
+            //  input 'Deploy to Production?'
                 kubernetesDeploy(
                     kubeconfigId: 'my-kubeconfig',
                     configs: 'spring-petclinic-deploy.yml',
