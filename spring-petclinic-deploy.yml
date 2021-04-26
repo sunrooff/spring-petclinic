@@ -19,7 +19,7 @@ spec:
       - name: spring-petclinic
         image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
         ports:
-        - containerPort: 80
+        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
