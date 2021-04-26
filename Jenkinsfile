@@ -36,12 +36,18 @@ pipeline {
                 }
             }
         }
+            
         // using kubernetes cli plugin
         stage('Deploy to EKS') {
-            withKubeConfig([credentialsId: 'my-kubeconfig', serverUrl: 'https://07F40E9FCB6B03FE19D9C2BA8DE75202.sk1.us-east-2.eks.amazonaws.com']) {
-                sh 'kubectl apply -f spring-petclinic-deploy.yml'
+            steps {
+                script {
+                    withKubeConfig([credentialsId: 'my-kubeconfig', serverUrl: 'https://07F40E9FCB6B03FE19D9C2BA8DE75202.sk1.us-east-2.eks.amazonaws.com']) {
+                        sh 'kubectl apply -f spring-petclinic-deploy.yml'
+                    }
+                }
             }
-        }
+        }        
+        
   
        // using kubernetes continious deploy plugin
        // stage('Deploy to EKS') {
