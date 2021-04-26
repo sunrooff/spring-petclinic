@@ -38,27 +38,27 @@ pipeline {
         }
             
         // using kubernetes cli plugin
-        stage('Deploy to EKS') {
-            steps {
-                script {
-                    withKubeConfig([credentialsId: 'my-kubeconfig', serverUrl: 'https://07F40E9FCB6B03FE19D9C2BA8DE75202.sk1.us-east-2.eks.amazonaws.com']) {
-                        sh 'kubectl apply -f spring-petclinic-deploy.yml'
-                    }
-                }
-            }
-        }        
+ //       stage('Deploy to EKS') {
+   //         steps {
+     //           script {
+       //             withKubeConfig([credentialsId: 'my-kubeconfig', serverUrl: 'https://07F40E9FCB6B03FE19D9C2BA8DE75202.sk1.us-east-2.eks.amazonaws.com']) {
+         //               sh 'kubectl apply -f spring-petclinic-deploy.yml'
+           //         }
+             //   }
+          //  }
+        //}        
         
   
        // using kubernetes continious deploy plugin
-       // stage('Deploy to EKS') {
-         //   steps {
-           //     kubernetesDeploy(
-             //       kubeconfigId: 'kubeconfig',
-               //     configs: 'spring-petclinic-deploy.yml',
-                 //   enableConfigSubstitution: true
-                //)
-            //}
-        //}
+        stage('Deploy to EKS') {
+            steps {
+                kubernetesDeploy(
+                    kubeconfigId: 'my-kubeconfig',
+                    configs: 'spring-petclinic-deploy.yml',
+                    enableConfigSubstitution: true
+                )
+            }
+        }
     }
 }
 
