@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
       - name: spring-petclinic
-        image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
-#       image: $DOCKER_IMAGE_NAME:${params.versioning}
+#         image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
+        image: $DOCKER_IMAGE_NAME:${params.versioning}
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
