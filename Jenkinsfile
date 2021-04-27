@@ -1,3 +1,7 @@
+
+properties([[$class: 'JiraProjectProperty'], parameters([choice(choices: '1\n2\n3\n\n4\nlatest', description: 'Select Version of app to Build', name: 'versioning')])])
+
+
 pipeline {
     agent any
     
@@ -54,8 +58,7 @@ pipeline {
         stage('Deploy to EKS') {
             steps {
             //  input 'Deploy to Production?'
-                properties([[$class: 'JiraProjectProperty'], parameters([choice(choices: '1\n2\n3\n\n4\nlatest', description: 'Select Version of app to Build', name: 'versioning')])])
-                kubernetesDeploy(
+                    kubernetesDeploy(
                     kubeconfigId: 'my-kubeconfig',
                     configs: 'spring-petclinic-deploy.yml',
                     enableConfigSubstitution: true
