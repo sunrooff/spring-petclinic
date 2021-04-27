@@ -31,7 +31,7 @@ pipeline {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
                         app.push("${env.BUILD_NUMBER}")
-                        // app.push("latest")
+                        app.push("latest")
                     }
                 }
             }
@@ -54,6 +54,7 @@ pipeline {
         stage('Deploy to EKS') {
             steps {
             //  input 'Deploy to Production?'
+                properties([[$class: 'JiraProjectProperty'], parameters([choice(choices: '1\n2\n3\n\n4\nlatest', description: 'Select Version of app to Build', name: 'versioning')])])
                 kubernetesDeploy(
                     kubeconfigId: 'my-kubeconfig',
                     configs: 'spring-petclinic-deploy.yml',
